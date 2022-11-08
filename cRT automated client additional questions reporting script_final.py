@@ -560,8 +560,8 @@ def calculate_aggregated_client_question_scores(start, df_demo_mergedx, df_tmp5,
 
 ##### MAIN    
 #################################### 
-Dir='C:\Current Processing/'
-os.chdir('C:\Current Processing/')
+
+os.getcwd()
 
 data_filename = 'CRT - Global - Nov21-Oct22 - cumulative working file CLEANED CQ ACTIVE3'
 for file in glob.glob(data_filename+' *.csv'):
