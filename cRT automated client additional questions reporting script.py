@@ -35,7 +35,7 @@ def get_question_label_dictionary():
 
     #Read in the question dictionary
     print("Opening cRT AddQ dictionary") 
-    df_dict = pandas.read_excel('CRT AddQ dictionary test.xlsx', encoding="utf-8")
+    df_dict = pandas.read_excel('CRT AddQ dictionary test.xlsx') #, encoding="utf-8")
     
     #Keep only client additional question rows
     df_dict2 = df_dict[df_dict['Variable'].str.contains('Q_N|Q_L')]
@@ -560,8 +560,9 @@ def calculate_aggregated_client_question_scores(start, df_demo_mergedx, df_tmp5,
 
 ##### MAIN    
 #################################### 
-Dir='C:\Current Processing/'
-os.chdir('C:\Current Processing/')
+#Dir='C:\Current Processing/'
+#os.chdir('C:\Current Processing/')
+
 
 data_filename = 'CRT - Global - Nov21-Oct22 - cumulative working file CLEANED CQ ACTIVE3'
 for file in glob.glob(data_filename+' *.csv'):
@@ -583,7 +584,6 @@ df_codebook_2021= get_2021_country_codebook_dictionary()
 #Get the score cols to overlay
 score_cols = scores_to_ovelay(Overlay_Scores)
 
-#Drivers for file 800 complete.
 
 #Loop over the input files 
 for input_file in glob.glob(data_filename+' LABELS 11*.csv'):
@@ -610,6 +610,8 @@ for input_file in glob.glob(data_filename+' LABELS 11*.csv'):
     df_unique_sh=clean_score_col_names(df_unique_sh)
     
     df_unique_sh=clean_up_company_column(df_unique_sh)
+    
+    df_unique_sh['Company'] = df_unique_sh['Company'].str.decode(encoding = 'UTF-8') 
   
     company_list = list(df_unique_sh.Company.unique())
     
@@ -650,7 +652,7 @@ for input_file in glob.glob(data_filename+' LABELS 11*.csv'):
         if(Overlay_Scores == 'Reputation'):
             df_tmp = calculate_Q_L_scores(df_tmp)
 
-            Q_L_score_cols = map(( lambda x: x+'_score'), Q_L_cols)   
+            Q_L_score_cols = [x+'_score' for x in Q_L_cols]
         
             
         #Recode Likert scale vars to B2, M3, etc.
